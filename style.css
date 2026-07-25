@@ -1,0 +1,253 @@
+:root {
+    --bg-main: #0b0f19;
+    --bg-card: #1e293b;
+    --accent: #e50914; /* Legend Cinema Red Theme vibe */
+    --accent-hover: #f40612;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --border: #334155;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.cinema-header {
+    background: #111827;
+    border-bottom: 1px solid var(--border);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-area h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.logo-area .highlight {
+    color: var(--accent);
+}
+
+.sub-tag {
+    margin: 2px 0 0 0;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+nav a.active, nav a:hover {
+    color: var(--accent);
+}
+
+.main-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.portal-section {
+    display: none;
+}
+
+.portal-section.active {
+    display: block;
+}
+
+.hidden {
+    display: none !important;
+}
+
+h2 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    border-left: 4px solid var(--accent);
+    padding-left: 10px;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.movie-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.movie-poster-placeholder {
+    font-size: 3rem;
+    background: #0f172a;
+    border-radius: 8px;
+    padding: 30px 0;
+    margin-bottom: 15px;
+}
+
+.movie-card h3 {
+    margin: 10px 0 5px 0;
+    font-size: 1.1rem;
+}
+
+.genre {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+}
+
+.btn-primary, .btn-accent, .btn-secondary {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover, .btn-accent:hover {
+    background: var(--accent-hover);
+}
+
+.btn-secondary {
+    background: var(--border);
+    width: auto;
+    margin-bottom: 20px;
+}
+
+.checkout-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 25px;
+}
+
+@media(max-width: 768px) {
+    .checkout-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
+.order-summary, .payment-methods, .success-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.tab-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.pay-tab {
+    flex: 1;
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.pay-tab.active {
+    background: var(--border);
+    color: white;
+    border-color: var(--accent);
+}
+
+.pay-content {
+    display: none;
+}
+
+.pay-content.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    background: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px;
+    color: white;
+    box-sizing: border-box;
+}
+
+.form-row {
+    display: flex;
+    gap: 10px;
+}
+
+.qr-box-mock {
+    text-align: center;
+    background: var(--bg-main);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px dashed var(--border);
+    margin-bottom: 15px;
+}
+
+.mock-qr-code {
+    font-size: 3.5rem;
+    background: white;
+    color: black;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 10px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+}
+
+.success-card {
+    text-align: center;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.success-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.ticket-receipt {
+    background: var(--bg-main);
+    padding: 15px;
+    border-radius: 6px;
+    margin: 20px 0;
+    font-size: 0.9rem;
+    text-align: left;
+}
