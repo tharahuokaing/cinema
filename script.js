@@ -1,123 +1,188 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phase 13 - Legend Cinema Daily Ticketing & Trailers</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="https://www.legend.com.kh/favicon.ico" type="image/x-icon">
-</head>
-<body>
+/* ========================================================= 
+   PHASE 13: LEGEND CINEMA DAILY SCHEDULE & TRAILERS
+========================================================= */
 
-    <!-- Header / Navbar Mock -->
-    <header class="cinema-header">
-        <div class="logo-area">
-            <h1>LEGEND <span class="highlight">CINEMAS</span></h1>
-            <p class="sub-tag">Daily Showtime & Trailer Sync • Phase 13</p>
-        </div>
-        <nav>
-            <a href="https://www.legend.com.kh/" target="_blank" class="nav-link">Official Site</a>
-            <a href="index.html" class="nav-link active">Book Tickets</a>
-        </nav>
-    </header>
+(() => {
+    "use strict";
 
-    <!-- Main Container -->
-    <main class="main-container">
-        
-        <!-- Step 1: Select Movie & Daily Showtime -->
-        <section id="movieSelection" class="portal-section active">
-            <div class="schedule-banner">
-                <span>🎬 Today's Lineup: <strong id="currentDateDisplay">Loading Daily Schedule...</strong></span>
-            </div>
-            <h2>Now Showing & Daily Releases</h2>
-            
-            <div id="movieGrid" class="movie-grid">
-                <!-- Injected dynamically from JavaScript -->
-            </div>
-        </section>
+    // Daily updated movie schedule including trailer embed links
+    const dailyMovies = [
+        { 
+            title: "Spider-Man: Brand New Day", 
+            genre: "Action / Sci-Fi • 2h 15m", 
+            price: 6.50, 
+            icon: "🕷️", 
+            time: "07:30 PM",
+            trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" // Replace with actual trailer embed link
+        },
+        { 
+            title: "The Odyssey", 
+            genre: "Adventure / Drama • 2h 40m", 
+            price: 6.00, 
+            icon: "🏛️", 
+            time: "04:15 PM",
+            trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" 
+        },
+        { 
+            title: "Cyber Heist: Phnom Penh", 
+            genre: "Thriller / Cyberpunk • 1h 55m", 
+            price: 7.00, 
+            icon: "💻", 
+            time: "09:00 PM",
+            trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" 
+        }
+    ];
 
-        <!-- Step 2: Checkout & Payment Options -->
-        <section id="checkoutSection" class="portal-section hidden">
-            <button id="backToMovies" class="btn-secondary">← Back to Movies</button>
-            <div class="checkout-wrapper">
-                <div class="order-summary">
-                    <h2>Booking Summary</h2>
-                    <p><strong>Movie:</strong> <span id="summaryMovie">None</span></p>
-                    <p><strong>Showtime:</strong> <span id="summaryTime">7:30 PM (Hall 2)</span></p>
-                    <p><strong>Total Amount:</strong> $<span id="summaryPrice">0.00</span></p>
-                </div>
+    let selectedMovieName = "";
+    let selectedMoviePrice = 0;
+    let selectedShowtime = "";
 
-                <div class="payment-methods">
-                    <h2>Choose Payment Method</h2>
-                    <div class="tab-row">
-                        <button class="pay-tab active" data-target="cardPayment">Credit/Debit Card</button>
-                        <button class="pay-tab" data-target="qrPayment">KHQR / Scan Code</button>
-                    </div>
+    const currentDateDisplay = document.getElementById("currentDateDisplay");
+    const movieGrid = document.getElementById("movieGrid");
+    const checkoutSection = document.getElementById("checkoutSection");
+    const successSection = document.getElementById("successSection");
+    const movieSelectionSec = document.getElementById("movieSelection");
 
-                    <!-- Visa / Mastercard Form -->
-                    <div id="cardPayment" class="pay-content active">
-                        <div class="form-group">
-                            <label>Cardholder Name</label>
-                            <input type="text" id="cardName" placeholder="Huokaing Thara">
-                        </div>
-                        <div class="form-group">
-                            <label>Card Number (Visa / Mastercard)</label>
-                            <input type="text" id="cardNumber" placeholder="4532 •••• •••• 8932" maxlength="19">
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Expiry Date</label>
-                                <input type="text" placeholder="MM/YY">
-                            </div>
-                            <div class="form-group">
-                                <label>CVV</label>
-                                <input type="password" placeholder="123" maxlength="4">
-                            </div>
-                        </div>
-                        <button id="payCardBtn" class="btn-accent">Confirm & Pay with Card</button>
-                    </div>
+    const summaryMovie = document.getElementById("summaryMovie");
+    const summaryTime = document.getElementById("summaryTime");
+    const summaryPrice = document.getElementById("summaryPrice");
 
-                    <!-- QR Scan Payment -->
-                    <div id="qrPayment" class="pay-content">
-                        <div class="qr-box-mock">
-                            <div class="mock-qr-code">
-                                <span>📱</span>
-                            </div>
-                            <p>Scan with ABA, ACLEDA, or any Bakong App</p>
-                        </div>
-                        <button id="payQrBtn" class="btn-accent">Simulate QR Scan Success</button>
-                    </div>
-                </div>
-            </div>
-        </section>
+    // Modal elements
+    const trailerModal = document.getElementById("trailerModal");
+    const modalMovieTitle = document.getElementById("modalMovieTitle");
+    const trailerIframe = document.getElementById("trailerIframe");
+    const closeModalBtn = document.getElementById("closeModalBtn");
 
-        <!-- Step 3: Success Screen -->
-        <section id="successSection" class="portal-section hidden">
-            <div class="success-card">
-                <div class="success-icon">✅</div>
-                <h2>Booking Confirmed!</h2>
-                <p>Your movie tickets have been successfully generated.</p>
-                <div class="ticket-receipt">
-                    <p><strong>Booking Reference:</strong> #LEGEND-99420</p>
-                    <p>Present this ticket code at any Legend Cinema counter.</p>
-                </div>
-                <button id="resetBookingBtn" class="btn-primary">Book Another Movie</button>
-            </div>
-        </section>
+    function initScheduleDate() {
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
+        if (currentDateDisplay) {
+            currentDateDisplay.textContent = today.toLocaleDateString("en-US", options) + " (Synced with Legend Daily Feed)";
+        }
+    }
 
-    </main>
+    function renderMovies() {
+        if (!movieGrid) return;
+        movieGrid.innerHTML = "";
 
-    <!-- Trailer Video Modal Overlay -->
-    <div id="trailerModal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <button id="closeModalBtn" class="close-btn">&times;</button>
-            <h3 id="modalMovieTitle">Movie Trailer</h3>
-            <div class="video-container">
-                <iframe id="trailerIframe" src="" title="Movie Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-        </div>
-    </div>
+        dailyMovies.forEach(movie => {
+            const card = document.createElement("div");
+            card.className = "movie-card";
+            card.innerHTML = `
+                <div class="movie-poster-placeholder">${movie.icon}</div>
+                <h3>${movie.title}</h3>
+                <p class="genre">${movie.genre}</p>
+                <p class="showtime-tag">Showtime: <strong>${movie.time}</strong></p>
+                <button class="btn-primary select-movie-btn" data-movie="${movie.title}" data-price="${movie.price}" data-time="${movie.time}">Select Showtime</button>
+                <button class="btn-secondary-outline watch-trailer-btn" data-title="${movie.title}" data-url="${movie.trailerUrl}">Watch Trailer 🎬</button>
+            `;
+            movieGrid.appendChild(card);
+        });
 
-    <script src="script.js"></script>
-</body>
-</html>
+        // Attach event listeners for showtime selection
+        document.querySelectorAll(".select-movie-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                selectedMovieName = e.target.getAttribute("data-movie");
+                selectedMoviePrice = e.target.getAttribute("data-price");
+                selectedShowtime = e.target.getAttribute("data-time");
+
+                summaryMovie.textContent = selectedMovieName;
+                summaryTime.textContent = selectedShowtime;
+                summaryPrice.textContent = selectedMoviePrice;
+
+                movieSelectionSec.classList.remove("active");
+                checkoutSection.classList.remove("hidden");
+                checkoutSection.classList.add("active");
+            });
+        });
+
+        // Attach event listeners for trailer popup
+        document.querySelectorAll(".watch-trailer-btn").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                const title = e.target.getAttribute("data-title");
+                const url = e.target.getAttribute("data-url");
+
+                modalMovieTitle.textContent = `${title} - Official Trailer`;
+                trailerIframe.src = url;
+                trailerModal.classList.remove("hidden");
+            });
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        initScheduleDate();
+        renderMovies();
+
+        // Close Modal Handler
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener("click", () => {
+                trailerIframe.src = ""; // Stop video playback
+                trailerModal.classList.add("hidden");
+            });
+        }
+
+        // Close modal when clicking outside content box
+        if (trailerModal) {
+            trailerModal.addEventListener("click", (e) => {
+                if (e.target === trailerModal) {
+                    trailerIframe.src = "";
+                    trailerModal.classList.add("hidden");
+                }
+            });
+        }
+
+        const backBtn = document.getElementById("backToMovies");
+        if (backBtn) {
+            backBtn.addEventListener("click", () => {
+                checkoutSection.classList.remove("active");
+                checkoutSection.classList.add("hidden");
+                movieSelectionSec.classList.add("active");
+            });
+        }
+
+        // Payment tab switching
+        const payTabs = document.querySelectorAll(".pay-tab");
+        const payContents = document.querySelectorAll(".pay-content");
+        payTabs.forEach(tab => {
+            tab.addEventListener("click", (e) => {
+                payTabs.forEach(t => t.classList.remove("active"));
+                payContents.forEach(c => c.classList.remove("active"));
+                e.target.classList.add("active");
+                document.getElementById(e.target.getAttribute("data-target")).classList.add("active");
+            });
+        });
+
+        const payCardBtn = document.getElementById("payCardBtn");
+        const payQrBtn = document.getElementById("payQrBtn");
+        const resetBookingBtn = document.getElementById("resetBookingBtn");
+
+        if (payCardBtn) {
+            payCardBtn.addEventListener("click", () => {
+                const cardNumber = document.getElementById("cardNumber").value;
+                if (!cardNumber || cardNumber.length < 12) {
+                    alert("Please enter a valid Visa or Mastercard number.");
+                    return;
+                }
+                finalizeCheckout();
+            });
+        }
+
+        if (payQrBtn) {
+            payQrBtn.addEventListener("click", finalizeCheckout);
+        }
+
+        if (resetBookingBtn) {
+            resetBookingBtn.addEventListener("click", () => {
+                successSection.classList.remove("active");
+                movieSelectionSec.classList.add("active");
+            });
+        }
+    });
+
+    function finalizeCheckout() {
+        checkoutSection.classList.remove("active");
+        checkoutSection.classList.add("hidden");
+        successSection.classList.add("active");
+    }
+
+})();
