@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legend Cinema Ticketing & Booking Portal</title>
+    <title>Legend Cinema Daily Ticketing & Booking Portal</title>
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="https://www.legend.com.kh/favicon.ico" type="image/x-icon">
 </head>
@@ -13,7 +13,7 @@
     <header class="cinema-header">
         <div class="logo-area">
             <h1>LEGEND <span class="highlight">CINEMAS</span></h1>
-            <p class="sub-tag">Phase 13 Cooperative Booking Module</p>
+            <p class="sub-tag">Daily Showtime Sync • Phase 13 Cooperative Module</p>
         </div>
         <nav>
             <a href="https://www.legend.com.kh/" target="_blank" class="nav-link">Official Site</a>
@@ -24,22 +24,16 @@
     <!-- Main Container -->
     <main class="main-container">
         
-        <!-- Step 1: Select Movie & Showtime -->
+        <!-- Step 1: Select Movie & Daily Showtime -->
         <section id="movieSelection" class="portal-section active">
-            <h2>Now Showing & Advance Bookings</h2>
-            <div class="movie-grid">
-                <div class="movie-card" data-movie="Spider-Man: Brand New Day" data-price="6.50">
-                    <div class="movie-poster-placeholder">🕷️</div>
-                    <h3>Spider-Man: Brand New Day</h3>
-                    <p class="genre">Action / Sci-Fi • 2h 15m</p>
-                    <button class="btn-primary select-movie-btn">Select Showtime</button>
-                </div>
-                <div class="movie-card" data-movie="The Odyssey" data-price="6.00">
-                    <div class="movie-poster-placeholder">🏛️</div>
-                    <h3>The Odyssey</h3>
-                    <p class="genre">Adventure / Drama • 2h 40m</p>
-                    <button class="btn-primary select-movie-btn">Select Showtime</button>
-                </div>
+            <div class="schedule-banner">
+                <span>🎬 Today's Lineup: <strong id="currentDateDisplay">Loading Daily Schedule...</strong></span>
+            </div>
+            <h2>Now Showing & Daily Releases</h2>
+            
+            <!-- Movie Grid populated dynamically via JavaScript -->
+            <div id="movieGrid" class="movie-grid">
+                <!-- Injected dynamically from daily sync -->
             </div>
         </section>
 
@@ -50,7 +44,7 @@
                 <div class="order-summary">
                     <h2>Booking Summary</h2>
                     <p><strong>Movie:</strong> <span id="summaryMovie">None</span></p>
-                    <p><strong>Seat:</strong> <span id="summarySeat">H-08 (Standard)</span></p>
+                    <p><strong>Showtime:</strong> <span id="summaryTime">7:30 PM (Hall 2)</span></p>
                     <p><strong>Total Amount:</strong> $<span id="summaryPrice">0.00</span></p>
                 </div>
 
@@ -103,10 +97,10 @@
             <div class="success-card">
                 <div class="success-icon">✅</div>
                 <h2>Booking Confirmed!</h2>
-                <p>Your tickets have been successfully generated.</p>
+                <p>Your movie tickets have been successfully generated.</p>
                 <div class="ticket-receipt">
-                    <p><strong>Booking Reference:</strong> #LEGEND-88392</p>
-                    <p>Present this code or your email confirmation at Legend Cinema counters.</p>
+                    <p><strong>Booking Reference:</strong> #LEGEND-99420</p>
+                    <p>Present this ticket code at any Legend Cinema counter.</p>
                 </div>
                 <button id="resetBookingBtn" class="btn-primary">Book Another Movie</button>
             </div>
