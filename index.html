@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 13 - Legend Cinema Ticketing & Booking Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="https://www.legend.com.kh/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+    <!-- Header / Navbar Mock -->
+    <header class="cinema-header">
+        <div class="logo-area">
+            <h1>LEGEND <span class="highlight">CINEMAS</span></h1>
+            <p class="sub-tag">Phase 13 Cooperative Booking Module</p>
+        </div>
+        <nav>
+            <a href="https://www.legend.com.kh/" target="_blank" class="nav-link">Official Site</a>
+            <a href="index.html" class="nav-link active">Book Tickets</a>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        
+        <!-- Step 1: Select Movie & Showtime -->
+        <section id="movieSelection" class="portal-section active">
+            <h2>Now Showing & Advance Bookings</h2>
+            <div class="movie-grid">
+                <div class="movie-card" data-movie="Spider-Man: Brand New Day" data-price="6.50">
+                    <div class="movie-poster-placeholder">🕷️</div>
+                    <h3>Spider-Man: Brand New Day</h3>
+                    <p class="genre">Action / Sci-Fi • 2h 15m</p>
+                    <button class="btn-primary select-movie-btn">Select Showtime</button>
+                </div>
+                <div class="movie-card" data-movie="The Odyssey" data-price="6.00">
+                    <div class="movie-poster-placeholder">🏛️</div>
+                    <h3>The Odyssey</h3>
+                    <p class="genre">Adventure / Drama • 2h 40m</p>
+                    <button class="btn-primary select-movie-btn">Select Showtime</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2: Checkout & Payment Options -->
+        <section id="checkoutSection" class="portal-section hidden">
+            <button id="backToMovies" class="btn-secondary">← Back to Movies</button>
+            <div class="checkout-wrapper">
+                <div class="order-summary">
+                    <h2>Booking Summary</h2>
+                    <p><strong>Movie:</strong> <span id="summaryMovie">None</span></p>
+                    <p><strong>Seat:</strong> <span id="summarySeat">H-08 (Standard)</span></p>
+                    <p><strong>Total Amount:</strong> $<span id="summaryPrice">0.00</span></p>
+                </div>
+
+                <div class="payment-methods">
+                    <h2>Choose Payment Method</h2>
+                    <div class="tab-row">
+                        <button class="pay-tab active" data-target="cardPayment">Credit/Debit Card</button>
+                        <button class="pay-tab" data-target="qrPayment">KHQR / Scan Code</button>
+                    </div>
+
+                    <!-- Visa / Mastercard Form -->
+                    <div id="cardPayment" class="pay-content active">
+                        <div class="form-group">
+                            <label>Cardholder Name</label>
+                            <input type="text" id="cardName" placeholder="Huokaing Thara">
+                        </div>
+                        <div class="form-group">
+                            <label>Card Number (Visa / Mastercard)</label>
+                            <input type="text" id="cardNumber" placeholder="4532 •••• •••• 8932" maxlength="19">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="text" placeholder="MM/YY">
+                            </div>
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="password" placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+                        <button id="payCardBtn" class="btn-accent">Confirm & Pay with Card</button>
+                    </div>
+
+                    <!-- QR Scan Payment -->
+                    <div id="qrPayment" class="pay-content">
+                        <div class="qr-box-mock">
+                            <div class="mock-qr-code">
+                                <span>📱</span>
+                            </div>
+                            <p>Scan with ABA, ACLEDA, or any Bakong App</p>
+                        </div>
+                        <button id="payQrBtn" class="btn-accent">Simulate QR Scan Success</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 3: Success Screen -->
+        <section id="successSection" class="portal-section hidden">
+            <div class="success-card">
+                <div class="success-icon">✅</div>
+                <h2>Booking Confirmed!</h2>
+                <p>Your tickets have been successfully generated.</p>
+                <div class="ticket-receipt">
+                    <p><strong>Booking Reference:</strong> #LEGEND-88392</p>
+                    <p>Present this code or your email confirmation at Legend Cinema counters.</p>
+                </div>
+                <button id="resetBookingBtn" class="btn-primary">Book Another Movie</button>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
