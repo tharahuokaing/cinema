@@ -13,7 +13,7 @@
             price: 6.50, 
             icon: "🕷️", 
             time: "07:30 PM",
-            trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" // Replace with actual trailer embed link
+            trailerUrl: "https://youtu.be/FU-P3Jcfo2o?si=mwZAvMcjhgnv7DCU" // Replace with actual trailer embed link
         },
         { 
             title: "The Odyssey", 
@@ -21,7 +21,7 @@
             price: 6.00, 
             icon: "🏛️", 
             time: "04:15 PM",
-            trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" 
+            trailerUrl: "https://youtu.be/Mzw2ttJD2qQ?si=41cHepS_mdoBOoGR" 
         },
         { 
             title: "Cyber Heist: Phnom Penh", 
@@ -29,7 +29,7 @@
             price: 7.00, 
             icon: "💻", 
             time: "09:00 PM",
-            trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ" 
+            trailerUrl: "https://youtu.be/fHrEootHhlc?si=HQDe5YfuG6ebdX3H" 
         }
     ];
 
