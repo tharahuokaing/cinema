@@ -1,5 +1,5 @@
 /* =========================================================
-   PHASE 13: LEGEND CINEMA DAILY SCHEDULE, TRAILERS & STORAGE
+   PHASE 13: LEGEND CINEMA DAILY SCHEDULE, SEATS, TRAILERS & STORAGE
 ========================================================= */
 
 (() => {
@@ -7,7 +7,7 @@
 
     const STORAGE_KEY = "legend_cinema_bookings";
 
-    // Daily movie schedule
+    // Daily movie schedule feed
     const dailyMovies = [
         {
             title: "Spider-Man: Brand New Day",
@@ -251,23 +251,37 @@
         }
     ];
 
-    // State Variables
+    // Consolidated State
     let selectedMovieName = "";
-    let selectedMoviePrice = 0;
+    let baseTicketPrice = 0;
     let selectedShowtime = "";
+    let selectedSeats = [];
     let currentActiveTicket = null;
+
+    // Configuration for Seat Layout
+    const rows = ["A", "B", "C", "D", "E"];
+    const seatsPerRow = 8;
+    const occupiedSeats = ["A3", "A4", "C5", "D1", "D2"];
 
     // DOM Elements
     const currentDateDisplay = document.getElementById("currentDateDisplay");
     const movieGrid = document.getElementById("movieGrid");
+    const movieSelectionSec = document.getElementById("movieSelection");
+    const seatSelectionSec = document.getElementById("seatSelectionSec");
     const checkoutSection = document.getElementById("checkoutSection");
     const successSection = document.getElementById("successSection");
-    const movieSelectionSec = document.getElementById("movieSelection");
     const historyContainer = document.getElementById("bookingHistoryList");
+
+    const seatGrid = document.getElementById("seatGrid");
+    const seatMovieTitle = document.getElementById("seatMovieTitle");
+    const selectedSeatsList = document.getElementById("selectedSeatsList");
+    const seatTotalPrice = document.getElementById("seatTotalPrice");
+    const proceedToCheckoutBtn = document.getElementById("proceedToCheckoutBtn");
 
     const summaryMovie = document.getElementById("summaryMovie");
     const summaryTime = document.getElementById("summaryTime");
     const summaryPrice = document.getElementById("summaryPrice");
+    const summarySeats = document.getElementById("summarySeats");
 
     // Initialize daily schedule date header
     function initScheduleDate() {
@@ -310,6 +324,70 @@
         });
     }
 
+    // Render Seat Grid Layout
+    function renderSeatGrid() {
+        if (!seatGrid) return;
+        seatGrid.innerHTML = "";
+        selectedSeats = [];
+        updateSeatSummary();
+
+        rows.forEach(rowLetter => {
+            const rowDiv = document.createElement("div");
+            rowDiv.className = "seat-row";
+
+            const label = document.createElement("span");
+            label.className = "row-label";
+            label.textContent = rowLetter;
+            rowDiv.appendChild(label);
+
+            for (let i = 1; i <= seatsPerRow; i++) {
+                const seatId = `${rowLetter}${i}`;
+                const seat = document.createElement("div");
+                seat.className = "seat";
+                seat.textContent = i;
+                seat.dataset.seatId = seatId;
+
+                if (occupiedSeats.includes(seatId)) {
+                    seat.classList.add("occupied");
+                } else {
+                    seat.addEventListener("click", () => toggleSeatSelection(seat, seatId));
+                }
+
+                rowDiv.appendChild(seat);
+            }
+
+            seatGrid.appendChild(rowDiv);
+        });
+    }
+
+    // Toggle Seat State
+    function toggleSeatSelection(seatElement, seatId) {
+        if (seatElement.classList.contains("selected")) {
+            seatElement.classList.remove("selected");
+            selectedSeats = selectedSeats.filter(s => s !== seatId);
+        } else {
+            seatElement.classList.add("selected");
+            selectedSeats.push(seatId);
+        }
+
+        updateSeatSummary();
+    }
+
+    // Update Seat Summary Panel
+    function updateSeatSummary() {
+        const total = selectedSeats.length * baseTicketPrice;
+
+        if (selectedSeatsList) {
+            selectedSeatsList.textContent = selectedSeats.length > 0 ? selectedSeats.join(", ") : "None";
+        }
+        if (seatTotalPrice) {
+            seatTotalPrice.textContent = `$${total.toFixed(2)}`;
+        }
+        if (proceedToCheckoutBtn) {
+            proceedToCheckoutBtn.disabled = selectedSeats.length === 0;
+        }
+    }
+
     // Event Delegation on Movie Grid
     function bindGridEvents() {
         if (!movieGrid) return;
@@ -320,17 +398,20 @@
 
             if (selectBtn) {
                 selectedMovieName = selectBtn.dataset.movie;
-                selectedMoviePrice = parseFloat(selectBtn.dataset.price);
+                baseTicketPrice = parseFloat(selectBtn.dataset.price);
                 selectedShowtime = selectBtn.dataset.time;
 
-                if (summaryMovie) summaryMovie.textContent = selectedMovieName;
-                if (summaryTime) summaryTime.textContent = selectedShowtime;
-                if (summaryPrice) summaryPrice.textContent = `$${selectedMoviePrice.toFixed(2)}`;
+                if (seatMovieTitle) {
+                    seatMovieTitle.textContent = `${selectedMovieName} • ${selectedShowtime} ($${baseTicketPrice.toFixed(2)}/seat)`;
+                }
 
+                renderSeatGrid();
+
+                // Transition: Movie Grid -> Seat Selection
                 if (movieSelectionSec) movieSelectionSec.classList.remove("active");
-                if (checkoutSection) {
-                    checkoutSection.classList.remove("hidden");
-                    checkoutSection.classList.add("active");
+                if (seatSelectionSec) {
+                    seatSelectionSec.classList.remove("hidden");
+                    seatSelectionSec.classList.add("active");
                 }
             }
 
@@ -341,8 +422,7 @@
         });
     }
 
-    // --- LOCAL STORAGE & TICKET HISTORY ---
-
+    // Storage & History Logic
     function saveBookingToStorage(ticket) {
         const existingBookings = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
         existingBookings.unshift(ticket);
@@ -368,7 +448,7 @@
                 </div>
                 <h4 style="margin: 6px 0;">${b.movie}</h4>
                 <div style="display: flex; justify-content: space-between; font-size: 0.9em;">
-                    <span>Showtime: ${b.time}</span>
+                    <span>Showtime: ${b.time} | Seats: <strong>${Array.isArray(b.seats) ? b.seats.join(", ") : "N/A"}</strong></span>
                     <span>Paid: <strong>$${parseFloat(b.price).toFixed(2)}</strong> (${b.paymentMethod})</span>
                 </div>
             </div>
@@ -380,8 +460,7 @@
         renderBookingHistory();
     }
 
-    // --- QR CODE & PDF RECEIPT HELPERS ---
-
+    // QR Code & PDF Export
     function renderQRCode(ticket) {
         const qrContainer = document.getElementById("ticketQrContainer");
         if (!qrContainer || typeof QRCode === "undefined") return;
@@ -389,7 +468,7 @@
         qrContainer.innerHTML = "";
 
         new QRCode(qrContainer, {
-            text: JSON.stringify({ id: ticket.id, movie: ticket.movie, time: ticket.time }),
+            text: JSON.stringify({ id: ticket.id, movie: ticket.movie, time: ticket.time, seats: ticket.seats }),
             width: 140,
             height: 140,
             colorDark: "#000000",
@@ -405,7 +484,7 @@
         }
 
         const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: [80, 130] });
+        const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: [80, 140] });
 
         doc.setFont("helvetica", "bold");
         doc.setFontSize(14);
@@ -436,28 +515,35 @@
         doc.text(ticket.time, 32, 46 + offset);
 
         doc.setFont("helvetica", "bold");
-        doc.text("Paid:", 8, 54 + offset);
+        doc.text("Seats:", 8, 54 + offset);
         doc.setFont("helvetica", "normal");
-        doc.text(`$${ticket.price.toFixed(2)} (${ticket.paymentMethod})`, 32, 54 + offset);
+        doc.text(ticket.seats.join(", "), 32, 54 + offset);
+
+        doc.setFont("helvetica", "bold");
+        doc.text("Paid:", 8, 62 + offset);
+        doc.setFont("helvetica", "normal");
+        doc.text(`$${ticket.price.toFixed(2)} (${ticket.paymentMethod})`, 32, 62 + offset);
 
         const qrCanvas = document.querySelector("#ticketQrContainer canvas");
         if (qrCanvas) {
-            doc.addImage(qrCanvas.toDataURL("image/png"), "PNG", 25, 62 + offset, 30, 30);
+            doc.addImage(qrCanvas.toDataURL("image/png"), "PNG", 25, 70 + offset, 30, 30);
         }
 
         doc.setFontSize(8);
-        doc.text("Present QR at entrance.", 40, 98 + offset, { align: "center" });
+        doc.text("Present QR at entrance.", 40, 106 + offset, { align: "center" });
         doc.save(`Ticket_${ticket.id}.pdf`);
     }
 
-    // --- CHECKOUT FINALIZE ---
-
+    // Checkout Completion
     function finalizeCheckout(paymentMethod = "Credit Card") {
+        const calculatedPrice = selectedSeats.length * baseTicketPrice;
+
         currentActiveTicket = {
             id: "TKT-" + Math.floor(100000 + Math.random() * 900000),
             movie: selectedMovieName,
             time: selectedShowtime,
-            price: selectedMoviePrice,
+            seats: selectedSeats,
+            price: calculatedPrice,
             paymentMethod: paymentMethod,
             bookedAt: new Date().toLocaleDateString("en-US", {
                 month: "short",
@@ -471,16 +557,18 @@
         saveBookingToStorage(currentActiveTicket);
         renderQRCode(currentActiveTicket);
 
-        // Update confirmation labels if present
+        // Update Labels
         const tId = document.getElementById("confirmedTicketId");
         const tMovie = document.getElementById("confirmedMovie");
         const tTime = document.getElementById("confirmedTime");
         const tPrice = document.getElementById("confirmedPrice");
+        const tSeats = document.getElementById("confirmedSeats");
 
         if (tId) tId.textContent = currentActiveTicket.id;
         if (tMovie) tMovie.textContent = currentActiveTicket.movie;
         if (tTime) tTime.textContent = currentActiveTicket.time;
         if (tPrice) tPrice.textContent = `$${currentActiveTicket.price.toFixed(2)}`;
+        if (tSeats) tSeats.textContent = currentActiveTicket.seats.join(", ");
 
         if (checkoutSection) {
             checkoutSection.classList.remove("active");
@@ -491,20 +579,41 @@
         }
     }
 
-    // Document Initialization
+    // DOM Setup
     document.addEventListener("DOMContentLoaded", () => {
         initScheduleDate();
         renderMovies();
         bindGridEvents();
         renderBookingHistory();
 
-        // Back to Movies Button
-        const backBtn = document.getElementById("backToMovies");
-        if (backBtn) {
-            backBtn.addEventListener("click", () => {
+        // Proceed to Checkout
+        if (proceedToCheckoutBtn) {
+            proceedToCheckoutBtn.addEventListener("click", () => {
+                const totalPrice = selectedSeats.length * baseTicketPrice;
+
+                if (summaryMovie) summaryMovie.textContent = selectedMovieName;
+                if (summaryTime) summaryTime.textContent = selectedShowtime;
+                if (summaryPrice) summaryPrice.textContent = `$${totalPrice.toFixed(2)}`;
+                if (summarySeats) summarySeats.textContent = selectedSeats.join(", ");
+
+                if (seatSelectionSec) {
+                    seatSelectionSec.classList.remove("active");
+                    seatSelectionSec.classList.add("hidden");
+                }
                 if (checkoutSection) {
-                    checkoutSection.classList.remove("active");
-                    checkoutSection.classList.add("hidden");
+                    checkoutSection.classList.remove("hidden");
+                    checkoutSection.classList.add("active");
+                }
+            });
+        }
+
+        // Navigation Handlers
+        const backToMoviesFromSeats = document.getElementById("backToMoviesFromSeats");
+        if (backToMoviesFromSeats) {
+            backToMoviesFromSeats.addEventListener("click", () => {
+                if (seatSelectionSec) {
+                    seatSelectionSec.classList.remove("active");
+                    seatSelectionSec.classList.add("hidden");
                 }
                 if (movieSelectionSec) {
                     movieSelectionSec.classList.add("active");
@@ -512,7 +621,33 @@
             });
         }
 
-        // Payment Tabs Switcher
+        const backBtn = document.getElementById("backToMovies");
+        if (backBtn) {
+            backBtn.addEventListener("click", () => {
+                if (checkoutSection) {
+                    checkoutSection.classList.remove("active");
+                    checkoutSection.classList.add("hidden");
+                }
+                if (seatSelectionSec) {
+                    seatSelectionSec.classList.remove("hidden");
+                    seatSelectionSec.classList.add("active");
+                }
+            });
+        }
+
+        const resetBookingBtn = document.getElementById("resetBookingBtn");
+        if (resetBookingBtn) {
+            resetBookingBtn.addEventListener("click", () => {
+                if (successSection) {
+                    successSection.classList.remove("active");
+                }
+                if (movieSelectionSec) {
+                    movieSelectionSec.classList.add("active");
+                }
+            });
+        }
+
+        // Payment Tabs
         const payTabs = document.querySelectorAll(".pay-tab");
         const payContents = document.querySelectorAll(".pay-content");
 
@@ -526,13 +661,11 @@
                 e.currentTarget.classList.add("active");
 
                 const targetContent = document.getElementById(targetId);
-                if (targetContent) {
-                    targetContent.classList.add("active");
-                }
+                if (targetContent) targetContent.classList.add("active");
             });
         });
 
-        // Payment Handlers
+        // Payment Submit Actions
         const payCardBtn = document.getElementById("payCardBtn");
         if (payCardBtn) {
             payCardBtn.addEventListener("click", () => {
@@ -553,7 +686,7 @@
             payQrBtn.addEventListener("click", () => finalizeCheckout("ABA / KHQR"));
         }
 
-        // Download Receipt Listener
+        // Receipt PDF Download
         const downloadBtn = document.getElementById("downloadReceiptBtn");
         if (downloadBtn) {
             downloadBtn.addEventListener("click", () => {
@@ -561,23 +694,10 @@
             });
         }
 
-        // Clear Storage Handler
+        // Clear History Handler
         const clearHistoryBtn = document.getElementById("clearHistoryBtn");
         if (clearHistoryBtn) {
             clearHistoryBtn.addEventListener("click", clearHistory);
-        }
-
-        // Reset / Book Again Handler
-        const resetBookingBtn = document.getElementById("resetBookingBtn");
-        if (resetBookingBtn) {
-            resetBookingBtn.addEventListener("click", () => {
-                if (successSection) {
-                    successSection.classList.remove("active");
-                }
-                if (movieSelectionSec) {
-                    movieSelectionSec.classList.add("active");
-                }
-            });
         }
     });
 })();
