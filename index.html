@@ -168,9 +168,29 @@
             <button id="clearHistoryBtn" class="btn-secondary-outline">Clear History</button>
         </section>
 
-        <!-- Step 3: Success Screen -->
+        <!-- Step 3: Success Screen -->     
         <section id="successSection" class="portal-section hidden">
+            <div id="successSection" class="checkout-step hidden">
+            <h2>🎉 Booking Confirmed!</h2>
+            <p>Show this QR code at the entrance or keep your receipt.</p>
 
+            <!-- Container where the QR Code will render -->
+            <div id="ticketQrContainer" style="display: flex; justify-content: center; margin: 20px 0;"></div>
+
+            <!-- Ticket Summary -->
+            <div class="ticket-summary">
+                <p><strong>Ticket ID:</strong> <span id="confirmedTicketId"></span></p>
+                <p><strong>Movie:</strong> <span id="confirmedMovie"></span></p>
+                <p><strong>Showtime:</strong> <span id="confirmedTime"></span></p>
+                <p><strong>Paid:</strong> <span id="confirmedPrice"></span></p>
+            </div>
+
+            <div class="actions" style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
+                <button id="downloadReceiptBtn" class="btn-primary">Download PDF Receipt 📄</button>
+                <button id="resetBookingBtn" class="btn-secondary-outline">Book Another Ticket</button>
+            </div>
+        </div>
+            
             <div class="success-card">
 
                 <div class="success-icon">✅</div>
