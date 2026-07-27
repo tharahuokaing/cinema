@@ -78,7 +78,7 @@
             icon: "🐼",
             time: "11:30 AM",
             trailerUrl: "https://youtu.be/_inKs4eeHiI"
-        }
+        },
         {
             title: "Gladiator II",
             genre: "Action / Drama • 2h 28m",
