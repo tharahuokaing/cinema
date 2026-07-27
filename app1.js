@@ -16,7 +16,7 @@
             icon: "💻",
             imageSrc: "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png",
             time: "07:00 PM",
-            trailerUrl: "https://www.youtube.com/watch?v=hdI2bqOjy3c"
+            trailerUrl: "https://xhamster.com/categories/jav"
         },
         {
             title: "The Night Curse of Reatrei (បណ្ដាសានាងរាត្រី)",
