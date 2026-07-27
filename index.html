@@ -57,6 +57,44 @@
 
         </section>
 
+        <!-- SEAT SELECTION SECTION -->
+<section id="seatSelectionSec" class="checkout-step hidden">
+    <h2>Select Your Seats</h2>
+    <p id="seatMovieTitle" class="subtitle"></p>
+
+    <!-- Cinema Screen visual -->
+    <div class="screen-container">
+        <div class="screen">SCREEN</div>
+    </div>
+
+    <!-- Interactive Grid -->
+    <div id="seatGrid" class="seat-grid"></div>
+
+    <!-- Legend -->
+    <div class="seat-legend">
+        <div class="legend-item"><span class="seat-sample available"></span> Available</div>
+        <div class="legend-item"><span class="seat-sample selected"></span> Selected</div>
+        <div class="legend-item"><span class="seat-sample occupied"></span> Occupied</div>
+    </div>
+
+    <!-- Selected Seats Summary -->
+    <div class="seat-summary-bar">
+        <div>
+            <span>Selected Seats: </span>
+            <strong id="selectedSeatsList">None</strong>
+        </div>
+        <div>
+            <span>Total Price: </span>
+            <strong id="seatTotalPrice">$0.00</strong>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button id="backToMoviesFromSeats" class="btn-secondary-outline">Back to Movies</button>
+        <button id="proceedToCheckoutBtn" class="btn-primary" disabled>Proceed to Payment</button>
+    </div>
+</section>
+
         <!-- Step 2: Checkout & Payment Options -->
         <section id="checkoutSection" class="portal-section hidden">
 
