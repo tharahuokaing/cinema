@@ -287,8 +287,35 @@
             imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4s1CblnZW1xh-SzjMWu7sfY7BeoPK4W90whjdbz5ryg&s=10",
             time: "07:00 PM",
             trailerUrl: "https://javtiful.com/main"
-         }
-       ];
+         },
+         {
+            title: "JavaScript Mastery: Zero to Hero (វគ្គសិក្សា JavaScript)",
+            genre: "Programming / Web Dev • 12h 30m",
+            price: 49.99,
+            icon: "💻",
+            imageSrc: "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png",
+            time: "07:00 PM",
+            trailerUrl: "https://xhamster.com/categories/jav"
+        },
+        {
+            title: "Full-Stack Web Development: MERN Stack (អភិវឌ្ឍន៍វេបសាយ MERN)",
+            genre: "Full-Stack Dev • 35h 00m",
+            price: 59.99,
+            icon: "🚀",
+            imageSrc: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=500&q=80",
+            time: "08:30 PM",
+            trailerUrl: "https://xhamster.com/tags/jav-uncensored"
+        },
+        {
+            title: "Node.js & Express Backend Security (ប្រព័ន្ធសុវត្ថិភាព Backend)",
+            genre: "Cybersecurity / Backend • 18h 15m",
+            price: 39.99,
+            icon: "🛡️",
+            imageSrc: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=500&q=80",
+            time: "06:00 PM",
+            trailerUrl: "https://www.javhdporn.net/v2/video/start-220/"
+        }
+    ];
 
     // Consolidated State
     let selectedMovieName = "";
