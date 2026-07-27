@@ -3,259 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legend Cinema Booking</title>
-    <!-- Include the stylesheet here -->
-    <link rel="stylesheet" href="style.css">
-    
-    <!-- QRCode and jsPDF dependencies used by Phase 13 JS -->
+    <title>Legend Cinema - Online Ticketing</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- External Libraries for QR Code and PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
-
 <body>
 
-    <!-- Header / Navbar Mock -->
-    <header class="cinema-header">
-        <div class="logo-area">
-            <h1>LEGEND <span class="highlight">CINEMAS</span></h1>
-            <p class="sub-tag">Daily Showtime Sync • Cooperative Module</p>
-        </div>
-
-        <nav>
-            <a href="https://www.legend.com.kh/" target="_blank" class="nav-link">
-                Official Site
-            </a>
-            <a href="index.html" class="nav-link active">
-                Book Tickets
-            </a>
-        </nav>
+    <header class="navbar">
+        <div class="logo">🎬 LEGEND CINEMA</div>
+        <div id="currentDateDisplay" class="date-badge">Loading daily feed...</div>
     </header>
 
-    <!-- Main Container -->
-    <main class="main-container">
+    <main class="container">
 
-        <!-- Step 1: Select Movie & Daily Showtime -->
-        <section id="movieSelection" class="portal-section active">
-
-            <div class="schedule-banner">
-                <span>
-                    🎬 Today's Lineup:
-                    <strong id="currentDateDisplay">
-                        Loading Daily Schedule...
-                    </strong>
-                </span>
-            </div>
-
-            <h2>Now Showing & Daily Releases</h2>
-
-            <!-- Movie Grid populated dynamically via JavaScript -->
-            <div id="movieGrid" class="movie-grid">
-                <!-- Injected dynamically from daily sync -->
-            </div>
-
+        <!-- STEP 1: MOVIE SELECTION -->
+        <section id="movieSelection" class="view-section active">
+            <h2 class="section-title">Now Showing Daily Schedule</h2>
+            <div id="movieGrid" class="movie-grid"></div>
         </section>
 
-        <!-- SEAT SELECTION SECTION -->
-<section id="seatSelectionSec" class="checkout-step hidden">
-    <h2>Select Your Seats</h2>
-    <p id="seatMovieTitle" class="subtitle"></p>
+        <!-- STEP 2: SEAT SELECTION -->
+        <section id="seatSelectionSec" class="view-section hidden">
+            <button id="backToMoviesFromSeats" class="btn-back">← Back to Schedule</button>
+            <h2 id="seatMovieTitle" class="section-title">Select Your Seats</h2>
+            
+            <div class="cinema-screen">SCREEN</div>
+            <div id="seatGrid" class="seat-grid"></div>
 
-    <!-- Cinema Screen visual -->
-    <div class="screen-container">
-        <div class="screen">SCREEN</div>
-    </div>
+            <div class="seat-legend">
+                <span><span class="legend-box available"></span> Available</span>
+                <span><span class="legend-box selected"></span> Selected</span>
+                <span><span class="legend-box occupied"></span> Occupied</span>
+            </div>
 
-    <!-- Interactive Grid -->
-    <div id="seatGrid" class="seat-grid"></div>
+            <div class="seat-summary-bar">
+                <div>Selected Seats: <strong id="selectedSeatsList">None</strong></div>
+                <div>Total: <strong id="seatTotalPrice">$0.00</strong></div>
+                <button id="proceedToCheckoutBtn" class="btn-primary" disabled>Proceed to Checkout</button>
+            </div>
+        </section>
 
-    <!-- Legend -->
-    <div class="seat-legend">
-        <div class="legend-item"><span class="seat-sample available"></span> Available</div>
-        <div class="legend-item"><span class="seat-sample selected"></span> Selected</div>
-        <div class="legend-item"><span class="seat-sample occupied"></span> Occupied</div>
-    </div>
+        <!-- STEP 3: CHECKOUT -->
+        <section id="checkoutSection" class="view-section hidden">
+            <button id="backToMovies" class="btn-back">← Back to Seat Selection</button>
+            <h2 class="section-title">Checkout Summary</h2>
 
-    <!-- Selected Seats Summary -->
-    <div class="seat-summary-bar">
-        <div>
-            <span>Selected Seats: </span>
-            <strong id="selectedSeatsList">None</strong>
-        </div>
-        <div>
-            <span>Total Price: </span>
-            <strong id="seatTotalPrice">$0.00</strong>
-        </div>
-    </div>
-
-    <div class="actions">
-        <button id="backToMoviesFromSeats" class="btn-secondary-outline">Back to Movies</button>
-        <button id="proceedToCheckoutBtn" class="btn-primary" disabled>Proceed to Payment</button>
-    </div>
-</section>
-
-        <!-- Step 2: Checkout & Payment Options -->
-        <section id="checkoutSection" class="portal-section hidden">
-
-            <button id="backToMovies" class="btn-secondary">
-                ← Back to Movies
-            </button>
-
-            <div class="checkout-wrapper">
-
-                <div class="order-summary">
-                    <h2>Booking Summary</h2>
-
-                    <p><strong>Movie:</strong> <span id="summaryMovie">None</span></p>
-                    <p><strong>Showtime:</strong> <span id="summaryTime">7:30 PM (Hall 2)</span></p>
-                    <p><strong>Total Amount:</strong> $<span id="summaryPrice">0.00</span></p>
+            <div class="checkout-card">
+                <div class="summary-details">
+                    <p>Movie: <strong id="summaryMovie">-</strong></p>
+                    <p>Showtime: <strong id="summaryTime">-</strong></p>
+                    <p>Seats: <strong id="summarySeats">-</strong></p>
+                    <p>Total Amount: <strong id="summaryPrice" class="price-highlight">$0.00</strong></p>
                 </div>
 
                 <div class="payment-methods">
-
-                    <h2>Choose Payment Method</h2>
-
-                    <div class="tab-row">
-                        <button class="pay-tab active" data-target="cardPayment">
-                            Credit/Debit Card
-                        </button>
-
-                        <button class="pay-tab" data-target="qrPayment">
-                            KHQR / Scan Code
-                        </button>
+                    <div class="tab-header">
+                        <button class="pay-tab active" data-target="cardPayment">Credit Card</button>
+                        <button class="pay-tab" data-target="qrPayment">KHQR / ABA</button>
                     </div>
 
-                    <!-- Visa / Mastercard Form -->
                     <div id="cardPayment" class="pay-content active">
-
-                        <div class="form-group">
-                            <label>Cardholder Name</label>
-                            <input
-                                type="text"
-                                id="cardName"
-                                placeholder="Huokaing Thara">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Card Number (Visa / Mastercard)</label>
-                            <input
-                                type="text"
-                                id="cardNumber"
-                                placeholder="4532 •••• •••• 8932"
-                                maxlength="19">
-                        </div>
-
-                        <div class="form-row">
-
-                            <div class="form-group">
-                                <label>Expiry Date</label>
-                                <input type="text" placeholder="MM/YY">
-                            </div>
-
-                            <div class="form-group">
-                                <label>CVV</label>
-                                <input
-                                    type="password"
-                                    placeholder="123"
-                                    maxlength="4">
-                            </div>
-
-                        </div>
-
-                        <button id="payCardBtn" class="btn-accent">
-                            Confirm & Pay with Card
-                        </button>
-
+                        <input type="text" id="cardNumber" placeholder="Card Number (e.g. 4532 1234 5678 9010)" maxlength="19">
+                        <button id="payCardBtn" class="btn-primary full-width">Pay Now</button>
                     </div>
 
-                    <!-- QR Scan Payment -->
                     <div id="qrPayment" class="pay-content">
-
-                        <div class="qr-box-mock">
-                            <div class="mock-qr-code">
-                                <span>📱</span>
-                            </div>
-
-                            <p>
-                                Scan with ABA, ACLEDA, or any Bakong App
-                            </p>
-                        </div>
-
-                        <button
-                            id="payQrBtn"
-                            class="btn-accent"
-                            onclick="window.location.href='https://tharahuokaing.github.io/qr_scanner/'">
-                            Open QR Scanner
-                        </button>
-
+                        <p>Scan to pay via ABA / KHQR Banking App</p>
+                        <div class="qr-placeholder">📲 Scan KHQR</div>
+                        <button id="payQrBtn" class="btn-primary full-width">Confirm Payment</button>
                     </div>
-
                 </div>
-
             </div>
-
         </section>
 
-        <section id="myBookingsSection" class="section">
-            <h2>My Ticket History</h2>
-            <div id="bookingHistoryList">
-                <!-- Ticket cards will be injected here dynamically -->
-            </div>
-            <button id="clearHistoryBtn" class="btn-secondary-outline">Clear History</button>
-        </section>
-
-        <!-- Step 3: Success Screen -->     
-        <section id="successSection" class="portal-section hidden">
-            <div id="successSection" class="checkout-step hidden">
-            <h2>🎉 Booking Confirmed!</h2>
-            <p>Show this QR code at the entrance or keep your receipt.</p>
-
-            <!-- Container where the QR Code will render -->
-            <div id="ticketQrContainer" style="display: flex; justify-content: center; margin: 20px 0;"></div>
-
-            <!-- Ticket Summary -->
-            <div class="ticket-summary">
-                <p><strong>Ticket ID:</strong> <span id="confirmedTicketId"></span></p>
-                <p><strong>Movie:</strong> <span id="confirmedMovie"></span></p>
-                <p><strong>Showtime:</strong> <span id="confirmedTime"></span></p>
-                <p><strong>Paid:</strong> <span id="confirmedPrice"></span></p>
-            </div>
-
-            <div class="actions" style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
-                <button id="downloadReceiptBtn" class="btn-primary">Download PDF Receipt 📄</button>
-                <button id="resetBookingBtn" class="btn-secondary-outline">Book Another Ticket</button>
-            </div>
-        </div>
-            
+        <!-- STEP 4: SUCCESS / CONFIRMATION -->
+        <section id="successSection" class="view-section hidden">
             <div class="success-card">
-
-                <div class="success-icon">✅</div>
-
-                <h2>Booking Confirmed!</h2>
-
-                <p>
-                    Your movie tickets have been successfully generated.
-                </p>
-
-                <div class="ticket-receipt">
-                    <p><strong>Booking Reference:</strong> #LEGEND-99420</p>
-                    <p>
-                        Present this ticket code at any Legend Cinema counter.
-                    </p>
+                <h2>🎉 Booking Confirmed!</h2>
+                <div id="ticketQrContainer" class="qr-code-container"></div>
+                
+                <div class="ticket-info">
+                    <p>Ticket ID: <strong id="confirmedTicketId">-</strong></p>
+                    <p>Movie: <strong id="confirmedMovie">-</strong></p>
+                    <p>Showtime: <strong id="confirmedTime">-</strong></p>
+                    <p>Seats: <strong id="confirmedSeats">-</strong></p>
+                    <p>Amount Paid: <strong id="confirmedPrice">-</strong></p>
                 </div>
 
-                <button id="resetBookingBtn" class="btn-primary">
-                    Book Another Movie
-                </button>
-
+                <div class="action-buttons">
+                    <button id="downloadReceiptBtn" class="btn-primary">Download PDF Receipt</button>
+                    <button id="resetBookingBtn" class="btn-secondary-outline">Book Another Movie</button>
+                </div>
             </div>
+        </section>
 
+        <!-- BOOKING HISTORY -->
+        <section class="history-section">
+            <div class="history-header">
+                <h3>Your Past Bookings</h3>
+                <button id="clearHistoryBtn" class="btn-danger-link">Clear History</button>
+            </div>
+            <div id="bookingHistoryList" class="history-list"></div>
         </section>
 
     </main>
 
-    <script src="script.js"></script>
-    <script src="script1.js"></script>
-    <script src="ultra_secure_mode.js"></script>
-
+    <script src="app.js"></script>
 </body>
 </html>
