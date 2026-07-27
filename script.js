@@ -249,10 +249,12 @@
         }
     ];
 
+    // State Variables
     let selectedMovieName = "";
     let selectedMoviePrice = 0;
     let selectedShowtime = "";
 
+    // DOM Elements
     const currentDateDisplay = document.getElementById("currentDateDisplay");
     const movieGrid = document.getElementById("movieGrid");
     const checkoutSection = document.getElementById("checkoutSection");
@@ -263,6 +265,7 @@
     const summaryTime = document.getElementById("summaryTime");
     const summaryPrice = document.getElementById("summaryPrice");
 
+    // Initialize daily schedule date header
     function initScheduleDate() {
         const today = new Date();
         const options = {
@@ -273,44 +276,34 @@
         };
 
         if (currentDateDisplay) {
-            currentDateDisplay.textContent =
-                today.toLocaleDateString("en-US", options) +
-                " (Synced with Legend Daily Feed)";
+            currentDateDisplay.textContent = `${today.toLocaleDateString("en-US", options)} (Synced with Legend Daily Feed)`;
         }
     }
 
+    // Render movies into grid dynamically
     function renderMovies() {
         if (!movieGrid) return;
 
         movieGrid.innerHTML = "";
 
         dailyMovies.forEach(movie => {
-
             const card = document.createElement("div");
             card.className = "movie-card";
 
             card.innerHTML = `
                 <div class="movie-poster-placeholder">${movie.icon}</div>
-
                 <h3>${movie.title}</h3>
-
                 <p class="genre">${movie.genre}</p>
-
-                <p class="showtime-tag">
-                    Showtime:
-                    <strong>${movie.time}</strong>
-                </p>
-
-                <button
-                    class="btn-primary select-movie-btn"
-                    data-movie="${movie.title}"
-                    data-price="${movie.price}"
+                <p class="showtime-tag">Showtime: <strong>${movie.time}</strong></p>
+                <button 
+                    class="btn-primary select-movie-btn" 
+                    data-movie="${movie.title}" 
+                    data-price="${movie.price}" 
                     data-time="${movie.time}">
                     Select Showtime
                 </button>
-
-                <button
-                    class="btn-secondary-outline watch-trailer-btn"
+                <button 
+                    class="btn-secondary-outline watch-trailer-btn" 
                     data-url="${movie.trailerUrl}">
                     Watch Trailer 🎬
                 </button>
@@ -318,171 +311,127 @@
 
             movieGrid.appendChild(card);
         });
-
-        // Select movie
-        document.querySelectorAll(".select-movie-btn").forEach(btn => {
-
-            btn.addEventListener("click", e => {
-
-                selectedMovieName =
-                    e.currentTarget.dataset.movie;
-
-                selectedMoviePrice =
-                    e.currentTarget.dataset.price;
-
-                selectedShowtime =
-                    e.currentTarget.dataset.time;
-
-                summaryMovie.textContent = selectedMovieName;
-                summaryTime.textContent = selectedShowtime;
-                summaryPrice.textContent = selectedMoviePrice;
-
-                movieSelectionSec.classList.remove("active");
-
-                checkoutSection.classList.remove("hidden");
-                checkoutSection.classList.add("active");
-
-            });
-
-        });
-
-        // Redirect trailer to YouTube
-        document.querySelectorAll(".watch-trailer-btn").forEach(btn => {
-
-            btn.addEventListener("click", e => {
-
-                const url = e.currentTarget.dataset.url;
-
-                window.open(
-                    url,
-                    "_blank",
-                    "noopener,noreferrer"
-                );
-
-            });
-
-        });
-
     }
 
+    // Event Delegation on Movie Grid for dynamic actions
+    function bindGridEvents() {
+        if (!movieGrid) return;
+
+        movieGrid.addEventListener("click", e => {
+            const selectBtn = e.target.closest(".select-movie-btn");
+            const trailerBtn = e.target.closest(".watch-trailer-btn");
+
+            // Handle Movie Selection
+            if (selectBtn) {
+                selectedMovieName = selectBtn.dataset.movie;
+                selectedMoviePrice = selectBtn.dataset.price;
+                selectedShowtime = selectBtn.dataset.time;
+
+                if (summaryMovie) summaryMovie.textContent = selectedMovieName;
+                if (summaryTime) summaryTime.textContent = selectedShowtime;
+                if (summaryPrice) summaryPrice.textContent = `$${parseFloat(selectedMoviePrice).toFixed(2)}`;
+
+                if (movieSelectionSec) movieSelectionSec.classList.remove("active");
+                if (checkoutSection) {
+                    checkoutSection.classList.remove("hidden");
+                    checkoutSection.classList.add("active");
+                }
+            }
+
+            // Handle Trailer Redirect
+            if (trailerBtn) {
+                const url = trailerBtn.dataset.url;
+                if (url) {
+                    window.open(url, "_blank", "noopener,noreferrer");
+                }
+            }
+        });
+    }
+
+    // Switch view to completion screen
     function finalizeCheckout() {
-
-        checkoutSection.classList.remove("active");
-        checkoutSection.classList.add("hidden");
-
-        successSection.classList.add("active");
-
+        if (checkoutSection) {
+            checkoutSection.classList.remove("active");
+            checkoutSection.classList.add("hidden");
+        }
+        if (successSection) {
+            successSection.classList.add("active");
+        }
     }
 
+    // Document Initialization
     document.addEventListener("DOMContentLoaded", () => {
-
         initScheduleDate();
         renderMovies();
+        bindGridEvents();
 
-        // Back button
-        const backBtn =
-            document.getElementById("backToMovies");
-
+        // Back to Movies Button
+        const backBtn = document.getElementById("backToMovies");
         if (backBtn) {
-
             backBtn.addEventListener("click", () => {
-
-                checkoutSection.classList.remove("active");
-                checkoutSection.classList.add("hidden");
-
-                movieSelectionSec.classList.add("active");
-
+                if (checkoutSection) {
+                    checkoutSection.classList.remove("active");
+                    checkoutSection.classList.add("hidden");
+                }
+                if (movieSelectionSec) {
+                    movieSelectionSec.classList.add("active");
+                }
             });
-
         }
 
-        // Payment tabs
-        const payTabs =
-            document.querySelectorAll(".pay-tab");
-
-        const payContents =
-            document.querySelectorAll(".pay-content");
+        // Payment Tabs Switcher
+        const payTabs = document.querySelectorAll(".pay-tab");
+        const payContents = document.querySelectorAll(".pay-content");
 
         payTabs.forEach(tab => {
-
             tab.addEventListener("click", e => {
+                const targetId = e.currentTarget.dataset.target;
 
-                payTabs.forEach(t =>
-                    t.classList.remove("active"));
-
-                payContents.forEach(c =>
-                    c.classList.remove("active"));
+                payTabs.forEach(t => t.classList.remove("active"));
+                payContents.forEach(c => c.classList.remove("active"));
 
                 e.currentTarget.classList.add("active");
 
-                document
-                    .getElementById(
-                        e.currentTarget.dataset.target
-                    )
-                    .classList.add("active");
-
+                const targetContent = document.getElementById(targetId);
+                if (targetContent) {
+                    targetContent.classList.add("active");
+                }
             });
-
         });
 
-        // Card payment
-        const payCardBtn =
-            document.getElementById("payCardBtn");
-
+        // Card Payment Handler
+        const payCardBtn = document.getElementById("payCardBtn");
         if (payCardBtn) {
-
             payCardBtn.addEventListener("click", () => {
-
-                const cardNumber =
-                    document
-                    .getElementById("cardNumber")
-                    .value
-                    .trim();
+                const cardInput = document.getElementById("cardNumber");
+                const cardNumber = cardInput ? cardInput.value.trim() : "";
 
                 if (cardNumber.length < 12) {
-
-                    alert(
-                        "Please enter a valid Visa or Mastercard number."
-                    );
-
+                    alert("Please enter a valid Visa or Mastercard number.");
                     return;
                 }
 
                 finalizeCheckout();
-
             });
-
         }
 
-        // QR payment
-        const payQrBtn =
-            document.getElementById("payQrBtn");
-
+        // QR Payment Handler
+        const payQrBtn = document.getElementById("payQrBtn");
         if (payQrBtn) {
-
-            payQrBtn.addEventListener(
-                "click",
-                finalizeCheckout
-            );
-
+            payQrBtn.addEventListener("click", finalizeCheckout);
         }
 
-        // Reset booking
-        const resetBookingBtn =
-            document.getElementById("resetBookingBtn");
-
+        // Reset / Book Again Handler
+        const resetBookingBtn = document.getElementById("resetBookingBtn");
         if (resetBookingBtn) {
-
             resetBookingBtn.addEventListener("click", () => {
-
-                successSection.classList.remove("active");
-
-                movieSelectionSec.classList.add("active");
-
+                if (successSection) {
+                    successSection.classList.remove("active");
+                }
+                if (movieSelectionSec) {
+                    movieSelectionSec.classList.add("active");
+                }
             });
-
         }
-
     });
-
 })();
