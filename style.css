@@ -913,3 +913,15 @@ body {
     color: var(--text-muted);
     font-size: 0.9rem;
 }
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-img {
+    height: 32px; /* Adjust height based on your layout */
+    width: auto;
+    object-fit: contain;
+}
