@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legend Cinema - Online Ticketing</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
     <!-- External Libraries for QR Code and PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -18,7 +18,7 @@
 
     <main class="container">
 
-        <!-- STEP 1: MOVIE SELECTION -->
+        <!-- STEP 1: MOVIE / COURSE SELECTION -->
         <section id="movieSelection" class="view-section active">
             <h2 class="section-title">Now Showing Daily Schedule</h2>
             <div id="movieGrid" class="movie-grid"></div>
@@ -51,10 +51,15 @@
             <h2 class="section-title">Checkout Summary</h2>
 
             <div class="checkout-card">
+                <!-- Added Image Container for Checkout -->
+                <div class="checkout-image-wrapper" id="checkoutImageWrapper">
+                    <img id="summaryImage" src="" alt="Selected Item Thumbnail" class="checkout-image" />
+                </div>
+
                 <div class="summary-details">
-                    <p>Movie: <strong id="summaryMovie">-</strong></p>
-                    <p>Showtime: <strong id="summaryTime">-</strong></p>
-                    <p>Seats: <strong id="summarySeats">-</strong></p>
+                    <p>Title: <strong id="summaryMovie">-</strong></p>
+                    <p>Schedule: <strong id="summaryTime">-</strong></p>
+                    <p>Seats / Slots: <strong id="summarySeats">-</strong></p>
                     <p>Total Amount: <strong id="summaryPrice" class="price-highlight">$0.00</strong></p>
                 </div>
 
@@ -82,11 +87,17 @@
         <section id="successSection" class="view-section hidden">
             <div class="success-card">
                 <h2>🎉 Booking Confirmed!</h2>
+                
+                <!-- Added Confirmed Poster Preview -->
+                <div class="confirmed-image-wrapper">
+                    <img id="confirmedImage" src="" alt="Ticket Poster" class="confirmed-image" />
+                </div>
+
                 <div id="ticketQrContainer" class="qr-code-container"></div>
                 
                 <div class="ticket-info">
                     <p>Ticket ID: <strong id="confirmedTicketId">-</strong></p>
-                    <p>Movie: <strong id="confirmedMovie">-</strong></p>
+                    <p>Title: <strong id="confirmedMovie">-</strong></p>
                     <p>Showtime: <strong id="confirmedTime">-</strong></p>
                     <p>Seats: <strong id="confirmedSeats">-</strong></p>
                     <p>Amount Paid: <strong id="confirmedPrice">-</strong></p>
@@ -94,7 +105,7 @@
 
                 <div class="action-buttons">
                     <button id="downloadReceiptBtn" class="btn-primary">Download PDF Receipt</button>
-                    <button id="resetBookingBtn" class="btn-secondary-outline">Book Another Movie</button>
+                    <button id="resetBookingBtn" class="btn-secondary-outline">Book Another Item</button>
                 </div>
             </div>
         </section>
