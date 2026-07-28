@@ -281,22 +281,13 @@
         },
         {
             title: "JavaScript Mastery: Zero to Hero (វគ្គសិក្សា JavaScript)",
-            genre: "Programming / Web Dev • 12h 30m",
+            genre: "Programming / Web Dev • 44h 48m",
             price: "$49.99",
             icon: "💻",
             imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4s1CblnZW1xh-SzjMWu7sfY7BeoPK4W90whjdbz5ryg&s=10",
             time: "07:00 PM",
             trailerUrl: "https://youtu.be/BbWoDbgsJxY?si=nSoX9EEu1pbzkiTk"
          },
-         {
-            title: "JavaScript Mastery: Zero to Hero (វគ្គសិក្សា JavaScript)",
-            genre: "Programming / Web Dev • 12h 30m",
-            price: 49.99,
-            icon: "💻",
-            imageSrc: "https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png",
-            time: "07:00 PM",
-            trailerUrl: "https://youtu.be/BbWoDbgsJxY?si=QxL3_EafnrKCsSx8"
-        },
         {
             title: "Full-Stack Web Development: MERN Stack (អភិវឌ្ឍន៍វេបសាយ MERN)",
             genre: "Full-Stack Dev • 11h 41m",
@@ -308,7 +299,7 @@
         },
         {
             title: "Node.js & Express Backend Security (ប្រព័ន្ធសុវត្ថិភាព Backend)",
-            genre: "Cybersecurity / Backend • 18h 15m",
+            genre: "Cybersecurity / Backend • ",
             price: 39.99,
             icon: "🛡️",
             imageSrc: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=500&q=80",
