@@ -925,3 +925,32 @@ body {
     width: auto;
     object-fit: contain;
 }
+
+/* Custom Styling for Google Translate Widget */
+#google_translate_element {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.goog-te-combo {
+    background-color: #181a20 !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    padding: 6px 10px !important;
+    border-radius: 6px !important;
+    font-family: inherit;
+    outline: none;
+}
+
+.goog-te-combo:focus {
+    border-color: #f0b90b !important;
+}
+
+/* Hide the top Google Translate banner frame if it appears */
+body {
+    top: 0 !important;
+}
+
+.goog-te-banner-frame {
+    display: none !important;
+}
