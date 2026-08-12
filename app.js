@@ -1,113 +1,9 @@
 /* =========================================================
-   PHASE 13: LEGEND CINEMA DAILY SCHEDULE, SEATS, TRAILERS & STORAGE
+   PHASE 13: REVISED CINEMA DAILY SCHEDULE
 ========================================================= */
 
-(() => {
-    "use strict";
-
-    const STORAGE_KEY = "legend_cinema_bookings";
-
-    // Daily movie schedule feed
-    const dailyMovies = [
-       // CINEMA DATABASE: NOW SHOWING
-    const nowShowing = [
-        {
-            title: "Lady Vampire / Nieng Arp (អាប)",
-            genre: "Folklore / Horror • 1h 50m",
-            price: 4.50,
-            icon: "🩸",
-            imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJUcoW68GN9VQyJvBnbyXS7d9bk3z0ZOFGHY6tXvkyWw&s=10",
-            time: "11:45 PM",
-            trailerUrl: "https://www.youtube.com/watch?v=Y6WR-PBsgbI"
-        },
-        {
-            title: "The Last Warrior / អ្នកចម្បាំងចុងក្រោយ",
-            genre: "Action / Adventure • 2h 10m",
-            price: 5.00,
-            icon: "⚔️",
-            imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3k_rNnN3t4nK7f7W6Q7t6jQ7j6Q7t6jQ7j6",
-            time: "07:00 PM",
-            trailerUrl: "https://www.youtube.com/watch?v=example1"
-        },
-        {
-            title: "City of Shadows / ទីក្រុងខ្មោចលង",
-            genre: "Thriller / Mystery • 1h 45m",
-            price: 4.00,
-            icon: "🌃",
-            imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3k_rNnN3t4nK7f7W6Q7t6jQ7j6Q7t6jQ7j7",
-            time: "09:30 PM",
-            trailerUrl: "https://www.youtube.com/watch?v=example2"
-        },
-        {
-            title: "Golden Temple / ប្រាសាទមាស",
-            genre: "Drama / History • 2h 05m",
-            price: 4.50,
-            icon: "🏛️",
-            imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3k_rNnN3t4nK7f7W6Q7t6jQ7j6Q7t6jQ7j8",
-            time: "05:15 PM",
-            trailerUrl: "https://www.youtube.com/watch?v=example3"
-        },
-        {
-            title: "Love in Phnom Penh / ស្នេហ៍នៅភ្នំពេញ",
-            genre: "Romance • 1h 40m",
-            price: 3.50,
-            icon: "❤️",
-            imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3k_rNnN3t4nK7f7W6Q7t6jQ7j6Q7t6jQ7j9",
-            time: "02:00 PM",
-            trailerUrl: "https://www.youtube.com/watch?v=example4"
-       },
-
-        // CINEMA DATABASE: COMING SOON
-        const comingSoon = [
-        {
-            title: "Dragon Legend / រឿងព្រេងនាគ",
-            genre: "Fantasy / Animation • 1h 30m",
-            price: 5.50,
-            icon: "🐉",
-            imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3k_rNnN3t4nK7f7W6Q7t6jQ7j6Q7t6jQ7j10",
-            time: "Coming Soon",
-            trailerUrl: "https://www.youtube.com/watch?v=example5"
-        },
-        {
-            title: "Space Voyager / អ្នកដំណើរក្នុងលំហ",
-            genre: "Sci-Fi • 2h 20m",
-            price: 6.00,
-            icon: "🚀",
-            imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3k_rNnN3t4nK7f7W6Q7t6jQ7j6Q7t6jQ7j11",
-            time: "Coming Soon",
-            trailerUrl: "https://www.youtube.com/watch?v=example6"
-        },
-        {
-            title: "Ghost of the Mekong / ខ្មោចទន្លេមេគង្គ",
-            genre: "Folklore / Horror • 1h 55m",
-            price: 4.50,
-            icon: "🌊",
-            imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3k_rNnN3t4nK7f7W6Q7t6jQ7j6Q7t6jQ7j12",
-            time: "Coming Soon",
-            trailerUrl: "https://www.youtube.com/watch?v=example7"
-        },
-        {
-            title: "The Detective / អ្នកស៊ើបអង្កេត",
-            genre: "Crime / Thriller • 1h 50m",
-            price: 4.00,
-            icon: "🔍",
-            imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3k_rNnN3t4nK7f7W6Q7t6jQ7j6Q7t6jQ7j13",
-            time: "Coming Soon",
-            trailerUrl: "https://www.youtube.com/watch?v=example8"
-         },
-         {
-            title: "Eternal Journey / ការធ្វើដំណើរអស់កល្ប",
-            genre: "Drama • 2h 00m",
-            price: 5.00,
-            icon: "⏳",
-            imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3k_rNnN3t4nK7f7W6Q7t6jQ7j6Q7t6jQ7j14",
-            time: "Coming Soon",
-            trailerUrl: "https://www.youtube.com/watch?v=example9"
-        },
-   
-    // CINEMA DATABASE: NOW SHOWING & COMING SOON (UPDATED FROM SCHEDULE)
-
-    const nowShowing = [
+const cinemaData = {
+    nowShowing: [
         {
             title: "Backrooms",
             genre: "Mystery / Horror • 1h 35m",
@@ -120,7 +16,7 @@
         },
         {
             title: "DRM: Nobita and the Castle of the Undersea Devil",
-            genre: "Animation / Adventure • 1h 50m",        
+            genre: "Animation / Adventure • 1h 50m",
             price: 4.00,
             icon: "🌊",
             imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3k_rNnN3t4nK7f7W6Q7t6jQ7j6Q7t6jQ7j6",
@@ -167,11 +63,9 @@
             date: "05 Aug 2026",
             time: "05:00 PM",
             trailerUrl: "https://www.youtube.com/watch?v=example_masterzhong"
-        },   
-
-       // CINEMA DATABASE: NOW SHOWING & COMING SOON (UPDATED FROM SCHEDULE)
-
-       const comingSoon = [
+        }
+    ],
+    comingSoon: [
         {
             title: "App the Horror",
             genre: "Tech / Horror • 1h 35m",
@@ -223,15 +117,17 @@
             trailerUrl: "https://www.youtube.com/watch?v=example_moana"
         },
         {
-            title: "Node.js & Express Backend Security (ប្រព័ន្ធសុវត្ថិភាព Backend)",
-            genre: "Cybersecurity / Backend • ",
+            title: "Node.js & Express Backend Security",
+            genre: "Cybersecurity / Backend",
             price: 39.99,
             icon: "🛡️",
             imageSrc: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=500&q=80",
+            date: "N/A",
             time: "06:00 PM",
             trailerUrl: "https://www.javhdporn.net/v2/video/start-220/"
         }
-    ];
+    ]
+};
 
     // Consolidated State
     let selectedMovieName = "";
