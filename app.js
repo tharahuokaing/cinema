@@ -10,6 +10,15 @@
     // Daily movie schedule feed
     const dailyMovies = [
         {
+            title: "Mannieque Wedding (ភ្លើងឆេះក្លឹបក្រោមដី)",
+            genre: "Horror, Thriller • 2h 00m",
+            price: 4.00,
+            icon: "🏚️",
+            imageSrc: "/images/mannieque-wedding.jpg",
+            time: "12: 00 PM",
+            trailerUrl: "https://youtu.be/k3K1ZKUncJo?si=QCuTT5ZZWRjqAKvu"
+        },
+        {
             title: "Spider-Man: Brand New Day",
             genre: "Action / Sci-Fi • 2h 15m",
             price: 6.50,
