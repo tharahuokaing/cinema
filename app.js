@@ -17,6 +17,15 @@
             imageSrc: "/images/mannieque-wedding.jpg",
             time: "12: 00 PM",
             trailerUrl: "https://youtu.be/k3K1ZKUncJo?si=QCuTT5ZZWRjqAKvu"
+        },       
+        {
+            title: "The Caged Butterfly (បណ្តាសាមេអំបៅខ្មោច)",
+            genre: "Horror, Thriller • 1h 31m",
+            price: 8.00,
+            icon: "🦋",
+            imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxGRxQdHGcta71wLjLHN7TQoPYNXAVRUIEbgur1eTJPQ&s=10",
+            time: "05: 00 PM",
+            trailerUrl: "https://youtu.be/7Tj-JGW9X9k?si=sPG6G1q9HFAzgj8V"
         },
         {
             title: "Spider-Man: Brand New Day",
@@ -305,7 +314,7 @@
             imageSrc: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=500&q=80",
             time: "08:30 PM",
             trailerUrl: "https://youtu.be/ORyi6tTMNqE?si=CXt0OqWkSnhs0q75"
-        },
+        },   
         {
             title: "Node.js & Express Backend Security (ប្រព័ន្ធសុវត្ថិភាព Backend)",
             genre: "Cybersecurity / Backend • ",
