@@ -35,7 +35,7 @@ To run this project locally, follow these simple steps:
 
 1. **Clone the repository**:
 
-git clone https://tharahuokaing.github.i/cinema.git
+git clone https://tharahuokaing.github.io/cinema.git
 
 2. **Navigate to the project directory**:
 
