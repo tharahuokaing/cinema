@@ -29,13 +29,22 @@
             trailerUrl: "https://youtu.be/AuFIkIk0_pA?si=gs-niNhckMuzv2LT"
         },
         {
-            title: "The Hole (ខ្មោចប្រហោងពោះ​ )",
+            title: "The Hole (ខ្មោចប្រហោងពោះ​)",
             genre: "Horror, Thriller • 1h 40m",
             price: 8.00,
             icon: "👻",
             imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwl0tV8KzFvLIsBsFHUNY9XsUqtsDyqzTMi18UsnBT2w&s=10",
             time: "09: 40 PM",
             trailerUrl: "https://youtu.be/qyeRiTmK-T8?si=Y1XSEn_t2nVYKTjv"
+        },
+        {
+            title: "Hold to Death: Hand in Hand (ខ្មោចកាន់ដៃ)",
+            genre: "Horror, Thriller • 1h 51m",
+            price: 8.00,
+            icon: "👻👫",
+            imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNUvV7d684Y4q_NAJJ1q2zBvkhRAgnCFOvgkpElrifIA&s=10",
+            time: "09: 00 PM",
+            trailerUrl: "https://youtu.be/xSXegACiqlg?si=-VHB4wFUYaM63Fpn"
         },
         {
             title: "After 79 House (ផ្ទះក្រោយ៧៩)",
