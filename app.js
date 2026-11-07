@@ -11,12 +11,21 @@
     const dailyMovies = [
         {
             title: "Mannieque Wedding (ភ្លើងឆេះក្លឹបក្រោមដី)",
-            genre: "Horror, Thriller • 2h 00m",
+            genre: "Horror, Thriller • 2h 16m",
             price: 8.00,
             icon: "🏚️",
             imageSrc: "/images/mannieque-wedding.jpg",
             time: "12: 00 PM",
             trailerUrl: "https://youtu.be/k3K1ZKUncJo?si=QCuTT5ZZWRjqAKvu"
+        },
+        {
+            title: "Hold to the hand (ខ្មោចចាប់ដៃ)",
+            genre: "Horror, Thriller • 2h 16m",
+            price: 8.00,
+            icon: "👻",
+            imageSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXFaPGmEocDtuWj1k2X7a_Ji6yZSFGadTypO1IWwULHQ&s=10",
+            time: "8: 30 PM",
+            trailerUrl: "https://youtu.be/xSXegACiqlg?si=y9LPEp88ZFKGCn_s"
         },
         {
             title: "Where Is My Head? (ឃើញក្បាលខ្ញុំទេ?)",
